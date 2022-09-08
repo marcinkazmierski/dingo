@@ -1,5 +1,4 @@
 import 'package:dingo/game/dingo_game.dart';
-import 'package:dingo/widgets/main_menu.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,7 +14,6 @@ void main() async {
 class MyGame extends StatelessWidget {
   const MyGame({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     final game = DingoGame();
@@ -32,10 +30,10 @@ class MyGame extends StatelessWidget {
               child: CupertinoActivityIndicator(),
             );
           },
-          overlayBuilderMap: {
-            MainMenu.id: (ctx, DingoGame g) => const MainMenu(),
-          },
-          initialActiveOverlays: const [MainMenu.id],
+          // overlayBuilderMap: {
+          //   MainMenu.id: (ctx, DingoGame g) => const MainMenu(),
+          // },
+          // initialActiveOverlays: const [MainMenu.id],
           game: game,
         ),
       ),
