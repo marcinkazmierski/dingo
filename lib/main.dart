@@ -1,4 +1,6 @@
 import 'package:dingo/game/dingo_game.dart';
+import 'package:dingo/widgets/hud.dart';
+import 'package:dingo/widgets/main_menu.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,10 +32,11 @@ class MyGame extends StatelessWidget {
               child: CupertinoActivityIndicator(),
             );
           },
-          // overlayBuilderMap: {
-          //   MainMenu.id: (ctx, DingoGame g) => const MainMenu(),
-          // },
-          // initialActiveOverlays: const [MainMenu.id],
+          overlayBuilderMap: {
+            MainMenu.id: (ctx, DingoGame g) => const MainMenu(),
+            Hud.id: (ctx, DingoGame g) => const Hud(),
+          },
+          initialActiveOverlays: const [Hud.id],
           game: game,
         ),
       ),
