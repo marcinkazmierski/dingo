@@ -1,11 +1,16 @@
 import 'dart:ui';
+import 'package:dingo/widgets/hud.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import '../game/dingo_game.dart';
 
 class MainMenu extends StatelessWidget {
   static const id = 'MainMenu';
 
-  const MainMenu({Key? key}) : super(key: key);
+  final DingoGame gameRef;
+
+  const MainMenu({Key? key, required this.gameRef}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +25,7 @@ class MainMenu extends StatelessWidget {
           child: FittedBox(
             fit: BoxFit.scaleDown,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
+              padding: const EdgeInsets.symmetric(horizontal: 80, vertical: 40),
               child: Wrap(
                 direction: Axis.vertical,
                 crossAxisAlignment: WrapCrossAlignment.center,
@@ -35,7 +39,11 @@ class MainMenu extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      gameRef.startGame();
+                      gameRef.overlays.remove(MainMenu.id);
+                      gameRef.overlays.add(Hud.id);
+                    },
                     child: const Text(
                       'Play',
                       style: TextStyle(

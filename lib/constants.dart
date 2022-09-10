@@ -3,6 +3,7 @@ const kViewPortHeight = 360.0;
 
 const kGroundHeight = 32.0;
 const kGroundParallaxVelocity = 40.0;
+const kGroundInActiveParallaxVelocity = 10.0;
 const kGroundParallaxVelocityDelta = 1.15;
 
 const kPlayerDefaultX = 32.0;

@@ -33,10 +33,10 @@ class MyGame extends StatelessWidget {
             );
           },
           overlayBuilderMap: {
-            MainMenu.id: (ctx, DingoGame g) => const MainMenu(),
-            Hud.id: (ctx, DingoGame g) => const Hud(),
+            MainMenu.id: (ctx, DingoGame g) => MainMenu(gameRef: g),
+            Hud.id: (ctx, DingoGame g) => Hud(gameRef: g),
           },
-          initialActiveOverlays: const [Hud.id],
+          initialActiveOverlays: const [MainMenu.id],
           game: game,
         ),
       ),

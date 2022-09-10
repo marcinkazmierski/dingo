@@ -1,9 +1,13 @@
+import 'package:dingo/game/dingo_game.dart';
+import 'package:dingo/widgets/main_menu.dart';
 import 'package:flutter/material.dart';
 
 class Hud extends StatelessWidget {
   static const id = 'Hud';
 
-  const Hud({Key? key}) : super(key: key);
+  final DingoGame gameRef;
+
+  const Hud({Key? key, required this.gameRef}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,8 +40,12 @@ class Hud extends StatelessWidget {
             style: TextStyle(fontSize: 20, color: Colors.white),
           ),
           TextButton(
-            onPressed: () {},
-            child: const Icon(Icons.pause, color: Colors.white),
+            onPressed: () {
+              gameRef.stopGame();
+              gameRef.overlays.remove(Hud.id);
+              gameRef.overlays.add(MainMenu.id);
+            },
+            child: const Icon(Icons.exit_to_app, color: Colors.white),
           ),
         ],
       ),
