@@ -1,6 +1,7 @@
 import 'package:dingo/constants.dart';
 import 'package:dingo/game/background_parallax.dart';
 import 'package:dingo/game/dingo_player.dart';
+import 'package:dingo/game/enemy_player.dart';
 import 'package:dingo/widgets/hud.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
@@ -9,10 +10,12 @@ import 'package:flame/game.dart';
 class DingoGame extends FlameGame with TapDetector {
   /// Image assets.
   static const imageAssets = [
-    'dog/sprite.png',
+    'sprites/dog.png',
+    'sprites/rat.png',
   ];
 
   late DingoPlayer _player;
+  late EnemyPlayer _enemy;
   late ParallaxComponent _background;
 
   @override
@@ -38,8 +41,17 @@ class DingoGame extends FlameGame with TapDetector {
       ),
     };
 
-    var sprite = images.fromCache('dog/sprite.png');
+    var sprite = images.fromCache('sprites/dog.png');
     _player = DingoPlayer(sprite, animations);
+
+    // enemy:
+    SpriteAnimationData animation =SpriteAnimationData.sequenced(
+      amount: 4,
+      stepTime: 0.25,
+      textureSize: Vector2.all(32),
+    );
+      sprite = images.fromCache('sprites/rat.png');
+    _enemy = EnemyPlayer(sprite, animation);
 
     return super.onLoad();
   }
@@ -57,11 +69,13 @@ class DingoGame extends FlameGame with TapDetector {
   void startGame() {
     _background.parallax?.baseVelocity = Vector2(kGroundParallaxVelocity, 0);
     add(_player);
+    add(_enemy);
   }
 
   void stopGame() {
     _background.parallax?.baseVelocity =
         Vector2(kGroundInActiveParallaxVelocity, 0);
     remove(_player);
+    remove(_enemy);
   }
 }
