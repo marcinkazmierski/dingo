@@ -1,33 +1,73 @@
 import 'package:dingo/constants.dart';
 import 'package:dingo/game/dingo_game.dart';
+import 'package:dingo/game/dingo_player.dart';
+import 'package:dingo/models/enemy_model.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
-import 'dart:ui';
 
 class EnemyPlayer extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<DingoGame> {
-  EnemyPlayer(Image image, SpriteAnimationData animation)
-      : super.fromFrameData(image, animation,
-            size: Vector2.all(40), scale: Vector2(-1, 1));
+  EnemyPlayer(this._enemyModel) {
+    start();
+  }
 
-  double speedX = 99.0;
+  final EnemyModel _enemyModel;
 
-  @override
-  Future<void> onLoad() async {
-    super.onLoad();
+  void start() {
     position = Vector2(kViewPortWidth, kPlayerDefaultY);
+    size = _enemyModel.size;
+    scale = _enemyModel.scale;
     anchor = Anchor.bottomLeft;
+    animation = SpriteAnimation.fromFrameData(
+      _enemyModel.image,
+      SpriteAnimationData.sequenced(
+        amount: _enemyModel.numOfFrames,
+        stepTime: _enemyModel.stepTime,
+        textureSize: _enemyModel.textureSize,
+      ),
+    );
   }
 
   @override
   void update(double dt) {
     // Move the opponent closer to the left corner of the screen
-    position.x = position.x - speedX * dt;
+    position.x = position.x - _enemyModel.speedX * dt;
     if (position.x < 0) {
-      position = Vector2(kViewPortWidth, kPlayerDefaultY);
+      gameRef.score++;
+      removeFromParent();
     }
 
     super.update(dt);
+  }
+
+  @override
+  void onMount() {
+    // Reduce the size of enemy as they look too big compared to the trex
+    add(
+      RectangleHitbox.relative(
+        Vector2.all(0.8),
+        parentSize: size,
+        position: Vector2(size.x * 0.2, size.y * 0.2) / 2,
+      ),
+    );
+
+    super.onMount();
+  }
+
+  @override
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is DingoPlayer) {
+      position.y = position.y + 5;
+    }
+    super.onCollisionStart(intersectionPoints, other);
+  }
+
+  @override
+  void onCollisionEnd(PositionComponent other) {
+    if (other is DingoPlayer) {
+      position.y = position.y - 5;
+    }
+    super.onCollisionEnd(other);
   }
 }

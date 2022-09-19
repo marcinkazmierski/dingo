@@ -1,13 +1,14 @@
 import 'package:dingo/constants.dart';
 import 'package:dingo/game/dingo_game.dart';
+import 'package:dingo/game/enemy_player.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'dart:ui';
 
 enum AnimationState { jumping, run, kick, hit, sprint }
 
 class DingoPlayer extends SpriteAnimationGroupComponent<AnimationState>
-    with HasGameRef<DingoGame> {
+    with CollisionCallbacks, HasGameRef<DingoGame> {
   DingoPlayer(Image image, Map<AnimationState, SpriteAnimationData> animations)
       : super.fromFrameData(image, animations,
             size: Vector2.all(kPlayerDefaultSize), current: AnimationState.run);
@@ -45,5 +46,26 @@ class DingoPlayer extends SpriteAnimationGroupComponent<AnimationState>
       current = AnimationState.jumping;
       jumping = true;
     }
+  }
+
+  @override
+  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+    if (other is EnemyPlayer) {
+      // print("onCollision");
+    }
+    super.onCollision(intersectionPoints, other);
+  }
+
+  @override
+  void onMount() {
+    add(
+      RectangleHitbox.relative(
+        Vector2(0.5, 0.7),
+        parentSize: size,
+        position: Vector2(size.x * 0.5, size.y * 0.3) / 2,
+      ),
+    );
+
+    super.onMount();
   }
 }

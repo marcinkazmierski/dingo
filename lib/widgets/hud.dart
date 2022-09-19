@@ -35,9 +35,9 @@ class Hud extends StatelessWidget {
               },
             ),
           ),
-          const Text(
-            'Score: 666',
-            style: TextStyle(fontSize: 20, color: Colors.white),
+          Text(
+            "Score: ${gameRef.score}",
+            style: const TextStyle(fontSize: 28, color: Colors.white),
           ),
           TextButton(
             onPressed: () {

@@ -1,22 +1,30 @@
+import 'dart:math';
+
 import 'package:dingo/constants.dart';
 import 'package:dingo/game/background_parallax.dart';
 import 'package:dingo/game/dingo_player.dart';
 import 'package:dingo/game/enemy_player.dart';
+import 'package:dingo/models/enemy_model.dart';
 import 'package:dingo/widgets/hud.dart';
 import 'package:flame/components.dart';
 import 'package:flame/input.dart';
 import 'package:flame/game.dart';
 
-class DingoGame extends FlameGame with TapDetector {
+class DingoGame extends FlameGame with TapDetector, HasCollisionDetection {
   /// Image assets.
   static const imageAssets = [
     'sprites/dog.png',
     'sprites/rat.png',
   ];
 
+  int score = 0;
+
   late DingoPlayer _player;
-  late EnemyPlayer _enemy;
+
   late ParallaxComponent _background;
+
+  final Timer _timer = Timer(2, repeat: true, autoStart: false);
+  final Random _random = Random();
 
   @override
   Future<void> onLoad() async {
@@ -44,16 +52,23 @@ class DingoGame extends FlameGame with TapDetector {
     var sprite = images.fromCache('sprites/dog.png');
     _player = DingoPlayer(sprite, animations);
 
-    // enemy:
-    SpriteAnimationData animation =SpriteAnimationData.sequenced(
-      amount: 4,
-      stepTime: 0.25,
-      textureSize: Vector2.all(32),
-    );
-      sprite = images.fromCache('sprites/rat.png');
-    _enemy = EnemyPlayer(sprite, animation);
-
     return super.onLoad();
+  }
+
+  void addEnemy() {
+    double speed = _random.nextInt(75) / 100 + 1;
+
+    EnemyModel enemyModel = EnemyModel(
+      image: images.fromCache('sprites/rat.png'),
+      numOfFrames: 4,
+      stepTime: 1 / speed * 0.20,
+      textureSize: Vector2.all(32),
+      speedX: speed * 110,
+      size: Vector2.all(32),
+      scale: Vector2(-1, 1),
+    );
+    EnemyPlayer enemy = EnemyPlayer(enemyModel);
+    add(enemy);
   }
 
   @override
@@ -66,16 +81,28 @@ class DingoGame extends FlameGame with TapDetector {
     super.onTapDown(info);
   }
 
+  @override
+  void update(double dt) {
+    _timer.update(dt);
+    super.update(dt);
+  }
+
   void startGame() {
     _background.parallax?.baseVelocity = Vector2(kGroundParallaxVelocity, 0);
     add(_player);
-    add(_enemy);
+    _timer.onTick = addEnemy;
+    _timer.start();
   }
 
   void stopGame() {
+    _timer.stop();
     _background.parallax?.baseVelocity =
         Vector2(kGroundInActiveParallaxVelocity, 0);
     remove(_player);
-    remove(_enemy);
+
+    final items = children.whereType<PositionComponent>();
+    for (var item in items) {
+      item.removeFromParent();
+    }
   }
 }
