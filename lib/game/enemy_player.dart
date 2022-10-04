@@ -32,7 +32,6 @@ class EnemyPlayer extends SpriteAnimationComponent
   void update(double dt) {
     position.x = position.x - _enemyModel.speedX * dt;
     if (position.x < 0) {
-      gameRef.score++;
       removeFromParent();
     }
 

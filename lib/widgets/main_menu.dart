@@ -43,6 +43,7 @@ class MainMenu extends StatelessWidget {
                       gameRef.startGame();
                       gameRef.overlays.remove(MainMenu.id);
                       gameRef.overlays.add(Hud.id);
+                      //todo: bloc: in block use gameRef, reset score and lives
                     },
                     child: const Text(
                       'Play',
