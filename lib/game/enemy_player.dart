@@ -30,7 +30,6 @@ class EnemyPlayer extends SpriteAnimationComponent
 
   @override
   void update(double dt) {
-    // Move the opponent closer to the left corner of the screen
     position.x = position.x - _enemyModel.speedX * dt;
     if (position.x < 0) {
       gameRef.score++;
@@ -42,7 +41,6 @@ class EnemyPlayer extends SpriteAnimationComponent
 
   @override
   void onMount() {
-    // Reduce the size of enemy as they look too big compared to the trex
     add(
       RectangleHitbox.relative(
         Vector2.all(0.8),

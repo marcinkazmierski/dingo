@@ -7,7 +7,7 @@ const kGroundInActiveParallaxVelocity = 10.0;
 const kGroundParallaxVelocityDelta = 1.15;
 
 const kPlayerDefaultX = 32.0;
-const kPlayerDefaultSize = 70.0;
+const kPlayerDefaultSize = 120.0;
 
 const kPlayerJumpSpeedY = -360.0;
 
