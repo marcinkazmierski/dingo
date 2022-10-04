@@ -1,3 +1,4 @@
+import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/widgets/hud.dart';
 import 'package:dingo/widgets/main_menu.dart';
@@ -5,6 +6,7 @@ import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,18 +28,21 @@ class MyGame extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        body: GameWidget(
-          loadingBuilder: (_) {
-            return const Center(
-              child: CupertinoActivityIndicator(),
-            );
-          },
-          overlayBuilderMap: {
-            MainMenu.id: (ctx, DingoGame g) => MainMenu(gameRef: g),
-            Hud.id: (ctx, DingoGame g) => Hud(gameRef: g),
-          },
-          initialActiveOverlays: const [MainMenu.id],
-          game: game,
+        body: BlocProvider(
+          create: (_) => GameBloc(),
+          child: GameWidget(
+            loadingBuilder: (_) {
+              return const Center(
+                child: CupertinoActivityIndicator(),
+              );
+            },
+            overlayBuilderMap: {
+              MainMenu.id: (ctx, DingoGame g) => MainMenu(gameRef: g),
+              Hud.id: (ctx, DingoGame g) => Hud(gameRef: g),
+            },
+            initialActiveOverlays: const [MainMenu.id],
+            game: game,
+          ),
         ),
       ),
     );

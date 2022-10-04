@@ -1,16 +1,18 @@
+import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/widgets/main_menu.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Hud extends StatelessWidget {
+  const Hud({Key? key, required this.gameRef}) : super(key: key);
   static const id = 'Hud';
 
   final DingoGame gameRef;
 
-  const Hud({Key? key, required this.gameRef}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    final score = context.select((GameBloc bloc) => bloc.state.score);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
@@ -36,7 +38,7 @@ class Hud extends StatelessWidget {
             ),
           ),
           Text(
-            "Score: ${gameRef.score}",
+            "Score: $score",
             style: const TextStyle(fontSize: 28, color: Colors.white),
           ),
           TextButton(

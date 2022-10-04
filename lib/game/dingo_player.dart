@@ -1,9 +1,12 @@
+import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/constants.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/game/enemy_player.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
 import 'dart:ui';
+
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum AnimationState { jumping, run, kick, hit, sprint }
 
@@ -49,11 +52,15 @@ class DingoPlayer extends SpriteAnimationGroupComponent<AnimationState>
   }
 
   @override
-  void onCollision(Set<Vector2> intersectionPoints, PositionComponent other) {
+  void onCollisionStart(
+      Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is EnemyPlayer) {
-      // print("onCollision");
+      print("onCollision");
+      BlocProvider.of<GameBloc>(gameRef.buildContext!).add(
+        GameAddPoints(points: 1),
+      );
     }
-    super.onCollision(intersectionPoints, other);
+    super.onCollisionStart(intersectionPoints, other);
   }
 
   @override
