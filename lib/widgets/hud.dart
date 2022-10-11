@@ -13,6 +13,8 @@ class Hud extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final score = context.select((GameBloc bloc) => bloc.state.score);
+    final lives = context.select((GameBloc bloc) => bloc.state.lives);
+
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Row(
@@ -23,7 +25,7 @@ class Hud extends StatelessWidget {
             children: List.generate(
               5,
               (index) {
-                if (index < 3) {
+                if (index + 1 <= lives) {
                   return const Icon(
                     Icons.favorite,
                     color: Colors.red,
