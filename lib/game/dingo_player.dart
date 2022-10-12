@@ -56,9 +56,8 @@ class DingoPlayer extends SpriteAnimationGroupComponent<AnimationState>
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is EnemyPlayer) {
       print("onCollision");
-      BlocProvider.of<GameBloc>(gameRef.buildContext!).add(
-        GameAddPoints(points: 1), //todo: move out
-      );
+      //gameRef.buildContext!.read<GameBloc>().add(GameAddPoints(points: 1));
+      gameRef.buildContext!.read<GameBloc>().add(GameRemoveOneLife( ));
       // BlocProvider.of<GameBloc>(gameRef.buildContext!).add(
       //     GameRemoveOneLife(),
       // );

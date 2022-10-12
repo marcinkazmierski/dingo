@@ -9,7 +9,7 @@ abstract class GameState extends Equatable {
   final int score;
 
   @override
-  List<Object> get props => [score];
+  List<Object> get props => [score, lives];
 }
 
 class GameInitial extends GameState {
@@ -17,6 +17,13 @@ class GameInitial extends GameState {
 
   @override
   String toString() => 'GameInitial';
+}
+
+class GameOver extends GameState {
+  const GameOver({required score}) : super(lives: 0, score: score);
+
+  @override
+  String toString() => 'GameOver';
 }
 
 ///EVENT
@@ -37,6 +44,10 @@ class GameRemoveOneLife extends GameEvent {
   const GameRemoveOneLife();
 }
 
+class GameRestart extends GameEvent {
+  const GameRestart();
+}
+
 /// BLOC
 class GameBloc extends Bloc<GameEvent, GameState> {
   static int _score = 0;
@@ -45,6 +56,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   GameBloc() : super(GameInitial(score: _score, lives: _lives)) {
     on<GameAddPoints>(_onGameAddPoints);
     on<GameRemoveOneLife>(_onGameRemoveOneLife);
+    on<GameRestart>(_onGameRestart);
   }
 
   void _onGameAddPoints(GameAddPoints event, Emitter<GameState> emit) {
@@ -54,6 +66,28 @@ class GameBloc extends Bloc<GameEvent, GameState> {
 
   void _onGameRemoveOneLife(GameRemoveOneLife event, Emitter<GameState> emit) {
     _lives -= 1;
+    if (_lives > 0) {
+      emit(GameInitial(score: _score, lives: _lives));
+    } else {
+      emit(GameOver(score: _score));
+    }
+  }
+
+  void _onGameRestart(GameRestart event, Emitter<GameState> emit) {
+    _lives = 5;
+    _score = 0;
     emit(GameInitial(score: _score, lives: _lives));
+  }
+
+  @override
+  void onTransition(Transition<GameEvent, GameState> transition) {
+    super.onTransition(transition);
+    print(transition.toString());
+  }
+
+  @override
+  void onEvent(GameEvent event) {
+    super.onEvent(event);
+    print(event.toString());
   }
 }

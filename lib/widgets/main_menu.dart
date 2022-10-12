@@ -1,7 +1,9 @@
 import 'dart:ui';
+import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/widgets/hud.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../game/dingo_game.dart';
 
 class MainMenu extends StatelessWidget {
@@ -39,6 +41,7 @@ class MainMenu extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
+                      gameRef.buildContext!.read<GameBloc>().add(const GameRestart());
                       gameRef.startGame();
                       gameRef.overlays.remove(MainMenu.id);
                       gameRef.overlays.add(Hud.id);
