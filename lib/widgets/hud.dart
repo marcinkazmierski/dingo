@@ -1,6 +1,7 @@
 import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/widgets/main_menu.dart';
+import 'package:dingo/widgets/summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,46 +13,56 @@ class Hud extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final score = context.select((GameBloc bloc) => bloc.state.score);
-    final lives = context.select((GameBloc bloc) => bloc.state.lives);
-
-    return Padding(
-      padding: const EdgeInsets.only(top: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: List.generate(
-              5,
-              (index) {
-                if (index + 1 <= lives) {
-                  return const Icon(
-                    Icons.favorite,
-                    color: Colors.red,
-                  );
-                } else {
-                  return const Icon(
-                    Icons.favorite_border,
-                    color: Colors.red,
-                  );
-                }
-              },
+    return BlocListener<GameBloc, GameState>(
+      listener: (context, state) {
+        if (state is GameOver) {
+          gameRef.stopGame();
+          gameRef.overlays.remove(Hud.id);
+          gameRef.overlays.add(Summary.id);
+        }
+      },
+      child: BlocBuilder<GameBloc, GameState>(
+        builder: (context, state) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: List.generate(
+                    5,
+                    (index) {
+                      if (index + 1 <= state.lives) {
+                        return const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        );
+                      } else {
+                        return const Icon(
+                          Icons.favorite_border,
+                          color: Colors.red,
+                        );
+                      }
+                    },
+                  ),
+                ),
+                Text(
+                  "Score: ${state.score}",
+                  style: const TextStyle(fontSize: 28, color: Colors.white),
+                ),
+                TextButton(
+                  onPressed: () {
+                    gameRef.stopGame();
+                    gameRef.overlays.remove(Hud.id);
+                    gameRef.overlays.add(MainMenu.id);
+                  },
+                  child: const Icon(Icons.exit_to_app, color: Colors.white),
+                ),
+              ],
             ),
-          ),
-          Text(
-            "Score: $score",
-            style: const TextStyle(fontSize: 28, color: Colors.white),
-          ),
-          TextButton(
-            onPressed: () {
-              gameRef.stopGame();
-              gameRef.overlays.remove(Hud.id);
-              gameRef.overlays.add(MainMenu.id);
-            },
-            child: const Icon(Icons.exit_to_app, color: Colors.white),
-          ),
-        ],
+          );
+        },
       ),
     );
   }

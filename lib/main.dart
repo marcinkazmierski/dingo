@@ -1,6 +1,7 @@
 import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/widgets/hud.dart';
+import 'package:dingo/widgets/summary.dart';
 import 'package:dingo/widgets/main_menu.dart';
 import 'package:flame/flame.dart';
 import 'package:flame/game.dart';
@@ -39,6 +40,7 @@ class MyGame extends StatelessWidget {
             overlayBuilderMap: {
               MainMenu.id: (ctx, DingoGame g) => MainMenu(gameRef: g),
               Hud.id: (ctx, DingoGame g) => Hud(gameRef: g),
+              Summary.id: (ctx, DingoGame g) => Summary(gameRef: g),
             },
             initialActiveOverlays: const [MainMenu.id],
             game: game,

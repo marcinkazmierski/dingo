@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:dingo/constants.dart';
 import 'package:equatable/equatable.dart';
 
 ///STATE
@@ -51,7 +52,7 @@ class GameRestart extends GameEvent {
 /// BLOC
 class GameBloc extends Bloc<GameEvent, GameState> {
   static int _score = 0;
-  static int _lives = 5;
+  static int _lives = kLivesOnStart;
 
   GameBloc() : super(GameInitial(score: _score, lives: _lives)) {
     on<GameAddPoints>(_onGameAddPoints);
@@ -74,7 +75,7 @@ class GameBloc extends Bloc<GameEvent, GameState> {
   }
 
   void _onGameRestart(GameRestart event, Emitter<GameState> emit) {
-    _lives = 5;
+    _lives = kLivesOnStart;
     _score = 0;
     emit(GameInitial(score: _score, lives: _lives));
   }

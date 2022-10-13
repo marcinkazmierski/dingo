@@ -12,3 +12,5 @@ const kPlayerDefaultSize = 120.0;
 const kPlayerJumpSpeedY = -380.0;
 
 const kPlayerDefaultY = kViewPortHeight - kGroundHeight;
+
+const kLivesOnStart = 1;
