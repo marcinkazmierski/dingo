@@ -21,7 +21,7 @@ class DingoGame extends FlameGame with TapDetector, HasCollisionDetection {
 
   late ParallaxComponent _background;
 
-  final Timer _timer = Timer(3, repeat: true, autoStart: false);
+  final Timer _timer = Timer(2.5, repeat: true, autoStart: false);
   final Random _random = Random();
 
   @override
@@ -54,14 +54,14 @@ class DingoGame extends FlameGame with TapDetector, HasCollisionDetection {
   }
 
   void addEnemy() {
-    double speed = _random.nextInt(75) / 100 + 1;
+    double speed = (_random.nextInt(60) / 100 + 1) * kEnemySpeedY;
 
     EnemyModel enemyModel = EnemyModel(
       image: images.fromCache('sprites/rat.png'),
       numOfFrames: 4,
-      stepTime: 1 / speed * 0.25,
+      stepTime: 8 / speed,
       textureSize: Vector2.all(32),
-      speedX: speed * 110,
+      speedX: speed,
       size: Vector2.all(46),
       scale: Vector2(-1, 1),
     );

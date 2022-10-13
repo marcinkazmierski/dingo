@@ -79,16 +79,4 @@ class GameBloc extends Bloc<GameEvent, GameState> {
     _score = 0;
     emit(GameInitial(score: _score, lives: _lives));
   }
-
-  @override
-  void onTransition(Transition<GameEvent, GameState> transition) {
-    super.onTransition(transition);
-    print(transition.toString());
-  }
-
-  @override
-  void onEvent(GameEvent event) {
-    super.onEvent(event);
-    print(event.toString());
-  }
 }

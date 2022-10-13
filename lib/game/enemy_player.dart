@@ -4,6 +4,9 @@ import 'package:dingo/game/dingo_player.dart';
 import 'package:dingo/models/enemy_model.dart';
 import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../bloc/game_bloc.dart';
 
 class EnemyPlayer extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<DingoGame> {
@@ -32,6 +35,7 @@ class EnemyPlayer extends SpriteAnimationComponent
   void update(double dt) {
     position.x = position.x - _enemyModel.speedX * dt;
     if (position.x < 0) {
+      gameRef.buildContext!.read<GameBloc>().add(const GameAddPoints(points: 1));
       removeFromParent();
     }
 

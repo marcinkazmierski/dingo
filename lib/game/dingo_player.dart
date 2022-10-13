@@ -16,7 +16,7 @@ class DingoPlayer extends SpriteAnimationGroupComponent<AnimationState>
       : super.fromFrameData(image, animations,
             size: Vector2.all(kPlayerDefaultSize), current: AnimationState.run);
 
-  static const double gravity = 800;
+  static const double gravity = 780;
   double speedY = 0.0;
   bool jumping = false;
 
@@ -55,12 +55,7 @@ class DingoPlayer extends SpriteAnimationGroupComponent<AnimationState>
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
     if (other is EnemyPlayer) {
-      print("onCollision");
-      //gameRef.buildContext!.read<GameBloc>().add(GameAddPoints(points: 1));
-      gameRef.buildContext!.read<GameBloc>().add(GameRemoveOneLife( ));
-      // BlocProvider.of<GameBloc>(gameRef.buildContext!).add(
-      //     GameRemoveOneLife(),
-      // );
+      gameRef.buildContext!.read<GameBloc>().add(GameRemoveOneLife());
     }
     super.onCollisionStart(intersectionPoints, other);
   }

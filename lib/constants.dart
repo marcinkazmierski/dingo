@@ -9,8 +9,9 @@ const kGroundParallaxVelocityDelta = 1.15;
 const kPlayerDefaultX = 32.0;
 const kPlayerDefaultSize = 120.0;
 
-const kPlayerJumpSpeedY = -380.0;
+const kPlayerJumpSpeedY = -400.0;
+const kEnemySpeedY = 120.0;
 
 const kPlayerDefaultY = kViewPortHeight - kGroundHeight;
 
-const kLivesOnStart = 1;
+const kLivesOnStart = 5;
