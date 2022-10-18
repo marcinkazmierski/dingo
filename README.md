@@ -1,11 +1,11 @@
-# dingo
+# Flutter game: "Dingo" :dog:
 
-Flutter game: Dingo
+Tap to jump!
 
-## Info
+## Dev Info
 
-- Flutter game engine: Flame: https://docs.flame-engine.org/
-- free sprites and backgrounds: https://craftpix.net/
+- Flame - Flutter game engine: https://docs.flame-engine.org/
+- Free sprites and backgrounds: https://craftpix.net/
 - Flutter BLoC - a predictable state management library for Dart: https://bloclibrary.dev/#/
 
 ## Screenshots:
