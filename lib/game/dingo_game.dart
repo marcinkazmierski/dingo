@@ -62,7 +62,7 @@ class DingoGame extends FlameGame with TapDetector, HasCollisionDetection {
       stepTime: 8 / speed,
       textureSize: Vector2.all(32),
       speedX: speed,
-      size: Vector2.all(46),
+      size: Vector2.all(60),
       scale: Vector2(-1, 1),
     );
     EnemyPlayer enemy = EnemyPlayer(enemyModel);

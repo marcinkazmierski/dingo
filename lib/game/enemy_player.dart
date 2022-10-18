@@ -10,32 +10,36 @@ import '../bloc/game_bloc.dart';
 
 class EnemyPlayer extends SpriteAnimationComponent
     with CollisionCallbacks, HasGameRef<DingoGame> {
-  EnemyPlayer(this._enemyModel) {
-    start();
+  EnemyPlayer(EnemyModel enemyModel) {
+    start(enemyModel);
   }
 
-  final EnemyModel _enemyModel;
+  double speedX = 0;
+  bool _collision = false;
 
-  void start() {
+  void start(EnemyModel enemyModel) {
+    speedX = enemyModel.speedX;
     position = Vector2(kViewPortWidth, kPlayerDefaultY);
-    size = _enemyModel.size;
-    scale = _enemyModel.scale;
+    size = enemyModel.size;
+    scale = enemyModel.scale;
     anchor = Anchor.bottomLeft;
     animation = SpriteAnimation.fromFrameData(
-      _enemyModel.image,
+      enemyModel.image,
       SpriteAnimationData.sequenced(
-        amount: _enemyModel.numOfFrames,
-        stepTime: _enemyModel.stepTime,
-        textureSize: _enemyModel.textureSize,
+        amount: enemyModel.numOfFrames,
+        stepTime: enemyModel.stepTime,
+        textureSize: enemyModel.textureSize,
       ),
     );
   }
 
   @override
   void update(double dt) {
-    position.x = position.x - _enemyModel.speedX * dt;
+    position.x = position.x - speedX * dt;
     if (position.x < 0) {
-      gameRef.buildContext!.read<GameBloc>().add(const GameAddPoints(points: 1));
+      gameRef.buildContext!
+          .read<GameBloc>()
+          .add(const GameAddPoints(points: 1));
       removeFromParent();
     }
 
@@ -58,17 +62,13 @@ class EnemyPlayer extends SpriteAnimationComponent
   @override
   void onCollisionStart(
       Set<Vector2> intersectionPoints, PositionComponent other) {
-    if (other is DingoPlayer) {
+    if (!_collision && other is DingoPlayer) {
       position.y = position.y + 5;
+      gameRef.buildContext!.read<GameBloc>().add(const GameRemoveOneLife());
+      _collision = true;
+      animation?.stepTime = double.infinity;
+      speedX = kEnemySpeedYAfterDead;
     }
     super.onCollisionStart(intersectionPoints, other);
-  }
-
-  @override
-  void onCollisionEnd(PositionComponent other) {
-    if (other is DingoPlayer) {
-      position.y = position.y - 5;
-    }
-    super.onCollisionEnd(other);
   }
 }
