@@ -10,7 +10,7 @@ const kPlayerDefaultX = 32.0;
 const kPlayerDefaultSize = 150.0;
 
 const kPlayerJumpSpeedY = -420.0;
-const kEnemySpeedY = 140.0;
+const kEnemySpeedY = 150.0;
 const kEnemySpeedYAfterDead = 115.0;
 
 const kPlayerDefaultY = kViewPortHeight - kGroundHeight;

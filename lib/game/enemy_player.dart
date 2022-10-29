@@ -19,7 +19,7 @@ class EnemyPlayer extends SpriteAnimationComponent
 
   void start(EnemyModel enemyModel) {
     speedX = enemyModel.speedX;
-    position = Vector2(kViewPortWidth, kPlayerDefaultY);
+    position = Vector2(kViewPortWidth + enemyModel.size.x, kPlayerDefaultY);
     size = enemyModel.size;
     scale = enemyModel.scale;
     anchor = Anchor.bottomLeft;

@@ -29,11 +29,6 @@ class MyGame extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: Scaffold(
-        bottomSheet: Container(
-          color: Colors.black,
-          child: const Text(" by kazmierski.com.pl ",
-              style: TextStyle(color: Colors.grey, fontSize: 8)),
-        ),
         body: BlocProvider(
           create: (_) => GameBloc(),
           child: GameWidget(

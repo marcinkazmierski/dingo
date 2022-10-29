@@ -39,31 +39,50 @@ class MainMenu extends StatelessWidget {
                       color: Colors.white,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      gameRef.buildContext!.read<GameBloc>().add(const GameRestart());
-                      gameRef.startGame();
-                      gameRef.overlays.remove(MainMenu.id);
-                      gameRef.overlays.add(Hud.id);
-                      //todo: bloc: in block use gameRef, reset score and lives
-                    },
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 10.0),
                     child: const Text(
-                      'Play',
+                      'Tap to jump!',
                       style: TextStyle(
-                        fontSize: 30,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
-                      SystemNavigator.pop();
-                    },
-                    child: const Text(
-                      'Exit',
-                      style: TextStyle(
-                        fontSize: 30,
+                  Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
+                          gameRef.buildContext!
+                              .read<GameBloc>()
+                              .add(const GameRestart());
+                          gameRef.startGame();
+                          gameRef.overlays.remove(MainMenu.id);
+                          gameRef.overlays.add(Hud.id);
+                          //todo: bloc: in block use gameRef, reset score and lives
+                        },
+                        child: const Text(
+                          'Play',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
                       ),
-                    ),
+                      Container(
+                        margin: const EdgeInsets.only(left: 30.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            SystemNavigator.pop();
+                          },
+                          child: const Text(
+                            'Exit',
+                            style: TextStyle(
+                              fontSize: 30,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),

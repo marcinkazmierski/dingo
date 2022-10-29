@@ -2,7 +2,7 @@
 
 Tap to jump!
 
-## Dev Info
+## Dev Info:
 
 - Flame - Flutter game engine: https://docs.flame-engine.org/
 - Free sprites and backgrounds: https://craftpix.net/
@@ -15,7 +15,7 @@ Tap to jump!
 ![Game Screen2](screenshots/img_3.png)
 ![Game Over](screenshots/img_4.png)
 
-## Release
+## Build App:
 
 - appbundle: flutter build appbundle --release
 - build APK: flutter build apk --release >> build\app\outputs\flutter-apk\app-release.apk
