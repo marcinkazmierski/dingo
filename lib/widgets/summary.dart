@@ -5,6 +5,7 @@ import 'package:dingo/widgets/main_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:screenshot/screenshot.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:share_plus/share_plus.dart';
 import '../game/dingo_game.dart';
 
@@ -28,6 +29,9 @@ class Summary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final score = context.select((GameBloc bloc) => bloc.state.score);
+    Sentry.captureMessage("New user score", params: [
+      {"score": score}
+    ]);
 
     return Screenshot(
       controller: _screenshotController,

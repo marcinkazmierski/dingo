@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dingo/bloc/game_bloc.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/widgets/hud.dart';
@@ -8,12 +10,26 @@ import 'package:flame/game.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Flame.device.fullScreen();
   await Flame.device.setLandscape();
-  runApp(const MyGame());
+  await dotenv.load(fileName: ".env");
+
+  runZonedGuarded(() async {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = dotenv.env['SENTRY_DSN'].toString();
+        options.tracesSampleRate = 1.0;
+      },
+    );
+    runApp(const MyGame());
+  }, (exception, stackTrace) async {
+    await Sentry.captureException(exception, stackTrace: stackTrace);
+  });
 }
 
 class MyGame extends StatelessWidget {
