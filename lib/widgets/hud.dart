@@ -1,4 +1,5 @@
 import 'package:dingo/bloc/game_bloc.dart';
+import 'package:dingo/constants.dart';
 import 'package:dingo/game/dingo_game.dart';
 import 'package:dingo/widgets/main_menu.dart';
 import 'package:dingo/widgets/summary.dart';
@@ -26,12 +27,12 @@ class Hud extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.only(top: 10),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Row(
                   children: List.generate(
-                    5,
+                    kLivesOnStart,
                     (index) {
                       if (index + 1 <= state.lives) {
                         return const Icon(
@@ -39,16 +40,16 @@ class Hud extends StatelessWidget {
                           color: Colors.red,
                         );
                       } else {
-                        return const Icon(
-                          Icons.favorite_border,
-                          color: Colors.red,
+                        return Icon(
+                          Icons.favorite,
+                          color: Colors.red.withOpacity(0.25),
                         );
                       }
                     },
                   ),
                 ),
                 Text(
-                  "Score: ${state.score}",
+                  "Your score: ${state.score}",
                   style: const TextStyle(fontSize: 28, color: Colors.white),
                 ),
                 TextButton(
